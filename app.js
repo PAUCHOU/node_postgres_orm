@@ -13,9 +13,10 @@ app.use(methodOverride("_method"));
 
 
 
-
 app.get("/people", function(req, res){
-  res.render("people/index", {people: []})
+  Person.all(function(err, allPeople){
+  res.render("people/index", {people: [allPeople]})
+  });
 });
 
 app.get("/people/new", function(req, res){
@@ -23,7 +24,8 @@ app.get("/people/new", function(req, res){
 });
 
 app.get("/people/:id", function(req,res){
-  res.render("people/show", {person: {} });
+  People.all(function(err, foundPerson))
+  res.render("people/show", {person: {foundPerson} });
 });
 
 app.get("/people/:id/edit", function(req,res){
@@ -37,6 +39,7 @@ app.post("/people", function(req, res){
 });
 
 app.delete("/people/:id", function(req, res){
+  Person.all(function(err, deletePeople))
   res.redirect("/people");
 });
 
